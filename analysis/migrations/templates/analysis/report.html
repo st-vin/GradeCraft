@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Performance Report</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Academic Analysis</h2>
+
+        {% if result %}
+            <p><strong>GPA:</strong> {{ result.gpa }}</p>
+            <p><strong>Classification:</strong> {{ result.classification }}</p>
+            <p><strong>Units Analyzed:</strong> {{ result.num_units }}</p>
+            <p><strong>Failing Units:</strong> {{ result.failing_units }}</p>
+        {% else %}
+            <p>No grades found to analyze.</p>
+        {% endif %}
+
+        {% if previous %}
+            <hr>
+            <p><em>Previous snapshot from {{ previous.timestamp }}</em></p>
+        {% endif %}
+
+        <a href="{% url 'dashboard' %}">⬅ Back to Dashboard</a>
+    </div>
+</body>
+</html>

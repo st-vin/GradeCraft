@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Welcome to GradeTracker{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* 1. Minimalism and Simplicity */
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        line-height: 1.6;
+        color: #1F2937;
+        background-color: #f9f9fb;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* 2. Color Theory and Application */
+    :root {
+        --primary: #3B82F6;     /* Blue: Trust, professionalism, education */
+        --primary-light: #DBEAFE;
+        --secondary: #4B5563;   /* Secondary color */
+        --accent: #8B5CF6;      /* Purple: Creativity, achievement */
+        --light: #F9FAFB;
+        --dark: #1F2937;
+        --gradient-start: #3B82F6;
+        --gradient-end: #8B5CF6;
+    }
+
+    /* 3. White Space Utilization */
+    .container {
+        max-width: 900px;
+        width: 90%;
+        background-color: white;
+        border-radius: 1.5rem;
+        overflow: hidden;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        display: flex;
+        flex-direction: column;
+        min-height: 500px;
+    }
+
+    /* Header area with gradient background */
+    .header {
+        background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+        padding: 3rem 2rem;
+        color: white;
+        position: relative;
+        text-align: center;
+    }
+
+    /* Decorative element */
+    .header::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 3rem;
+        background: white;
+        clip-path: ellipse(50% 60% at 50% 100%);
+    }
+
+    /* 6. Typography and Readability */
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        letter-spacing: -0.025em;
+    }
+
+    .tagline {
+        font-size: 1.25rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto 1rem;
+    }
+
+    /* Content area */
+    .content {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-grow: 1;
+    }
+
+    .benefits {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin: 2rem 0;
+        flex-wrap: wrap;
+    }
+
+    .benefit-card {
+        background-color: var(--light);
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        width: 15rem;
+        text-align: center;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .benefit-card h3 {
+        color: var(--dark);
+        font-size: 1.25rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .benefit-card p {
+        color: var(--secondary);
+        font-size: 0.875rem;
+        margin: 0;
+    }
+
+    .icon {
+        display: inline-block;
+        width: 3rem;
+        height: 3rem;
+        margin-bottom: 1rem;
+        background-color: var(--primary-light);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary);
+        font-size: 1.5rem;
+    }
+
+    /* 4. Interaction and User Experience Design */
+    .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .btn {
+        padding: 0.75rem 2rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        text-align: center;
+    }
+
+    .btn-primary {
+        background-color: var(--primary);
+        color: white;
+        box-shadow: 0 4px 6px rgba(59, 130, 246, 0.25);
+    }
+
+    .btn-primary:hover {
+        background-color: #2563EB;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-secondary {
+        background-color: white;
+        color: var(--primary);
+        border: 2px solid var(--primary-light);
+    }
+
+    .btn-secondary:hover {
+        background-color: var(--primary-light);
+        transform: translateY(-2px);
+    }
+
+    /* Footer */
+    .footer {
+        text-align: center;
+        padding: 1.5rem;
+        color: var(--secondary);
+        font-size: 0.875rem;
+        border-top: 1px solid #E5E7EB;
+        margin-top: auto;
+    }
+
+    /* 8. Responsive and Adaptive Design */
+    @media (max-width: 768px) {
+        .container {
+            width: 95%;
+            min-height: auto;
+        }
+
+        .header {
+            padding: 2rem 1rem;
+        }
+        
+        h1 {
+            font-size: 2rem;
+        }
+        
+        .benefits {
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .benefit-card {
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .cta-buttons {
+            flex-direction: column;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .btn {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>Welcome to GradeTracker</h1>
+        <p class="tagline">Your personal academic performance tracking system designed to help you achieve your educational goals.</p>
+    </div>
+    
+    <div class="content">
+        <div class="benefits">
+            <div class="benefit-card">
+                <div class="icon">📊</div>
+                <h3>Track Progress</h3>
+                <p>Monitor your grades across all courses and assignments in one centralized dashboard.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="icon">📈</div>
+                <h3>Analyze Performance</h3>
+                <p>Get insightful analytics about your academic strengths and areas for improvement.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="icon">🎯</div>
+                <h3>Set Goals</h3>
+                <p>Create academic goals and track your progress toward achieving them.</p>
+            </div>
+        </div>
+        
+        <div class="cta-buttons">
+            <a href="{% url 'login' %}" class="btn btn-primary">Log In</a>
+            <a href="{% url 'signup' %}" class="btn btn-secondary">Sign Up</a>
+        </div>
+    </div>
+    
+    <div class="footer">
+        © 2025 GradeTracker. All rights reserved.
+    </div>
+</div>
+{% endblock %}

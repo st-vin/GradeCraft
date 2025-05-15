@@ -1,0 +1,153 @@
+/* Enhanced UI/UX Design Principles CSS */
+:root {
+    /* Color Palette - Following 60-30-10 Rule */
+    --color-primary: #007bff;     /* 60% - Main background/dominant color */
+    --color-secondary: #f8f9fa;   /* 30% - Supporting elements */
+    --color-accent: #28a745;      /* 10% - Highlights, CTAs */
+    
+    /* Typography Scale */
+    --font-size-base: 16px;
+    --font-size-small: 0.875rem;
+    --font-size-large: 1.25rem;
+
+    /* Spacing and Rhythm */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+
+    /* Accessibility and Readability */
+    --line-height-base: 1.6;
+    --letter-spacing-base: 0.02em;
+}
+
+/* Reset and Base Styles */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    line-height: var(--line-height-base);
+    letter-spacing: var(--letter-spacing-base);
+    background-color: var(--color-secondary);
+    color: #333;
+    padding: var(--spacing-lg);
+}
+
+/* Container - Minimalist Design */
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    background: white;
+    padding: var(--spacing-lg);
+    border-radius: 12px;
+    box-shadow: 
+        0 4px 6px rgba(0, 0, 0, 0.05),
+        0 10px 20px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
+}
+
+.container:hover {
+    box-shadow: 
+        0 6px 8px rgba(0, 0, 0, 0.08),
+        0 15px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Typography Hierarchy */
+h2 {
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-large);
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+/* Form Elements with Accessibility */
+.form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+    color: #495057;
+}
+
+input {
+    width: 100%;
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-base);
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    transition: 
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Button Design - Emphasizing Interaction */
+button {
+    width: 100%;
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-base);
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: var(--spacing-sm);
+    transition: 
+        background-color 0.3s ease,
+        transform 0.1s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+/* Error State Design */
+.error {
+    color: #dc3545;
+    font-size: var(--font-size-small);
+    margin-top: var(--spacing-xs);
+    animation: fadeIn 0.3s ease;
+}
+
+/* Micro-interactions and Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Considerations */
+@media (max-width: 576px) {
+    .container {
+        width: 100%;
+        padding: var(--spacing-md);
+        border-radius: 0;
+    }
+}
+
+/* Accessibility Enhancements */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

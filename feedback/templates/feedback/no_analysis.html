@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}No Analysis Found{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Using a clean, minimal design approach */
+    :root {
+        /* Color palette based on the guide's principles */
+        --primary: #3498db;       /* Blue: Trust, professionalism */
+        --secondary: #f8f9fa;     /* Light background */
+        --text: #333333;          /* Dark gray for readability */
+        --accent: #2ecc71;        /* Green: Growth, positive direction */
+        --light-gray: #e9ecef;    /* For subtle backgrounds */
+    }
+    
+    body {
+        font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.6;
+        color: var(--text);
+        background-color: var(--secondary);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+    
+    .container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        padding: 2.5rem 3rem;
+        text-align: center;
+        max-width: 480px;
+        width: 90%;
+    }
+    
+    h2 {
+        color: var(--text);
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+    }
+    
+    p {
+        color: #555;
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .action-link {
+        display: inline-block;
+        background-color: var(--primary);
+        color: white;
+        text-decoration: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        margin-top: 0.5rem;
+    }
+    
+    .action-link:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .icon {
+        margin-right: 8px;
+    }
+    
+    /* Visual separator */
+    .divider {
+        height: 1px;
+        background-color: var(--light-gray);
+        margin: 1.5rem 0;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 576px) {
+        .container {
+            padding: 2rem;
+            width: 85%;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>No Analysis Found</h2>
+    <p>Please run your performance analysis first before requesting feedback.</p>
+    <div class="divider"></div>
+    <a href="{% url 'analysis-report' %}" class="action-link">
+        <span class="icon">📊</span>Go to Performance Analysis
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Your Analysis Report{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<style>
+    /* UI/UX Design Principles Applied to Performance Report */
+    :root {
+        --color-primary: #f4f7f6;     /* 60% - Light neutral background */
+        --color-secondary: #2c3e50;   /* 30% - Deep blue-gray for text and elements */
+        --color-accent: #3498db;      /* 10% - Bright blue for interactive elements */
+        --color-text: #2c3e50;        /* Primary text color */
+        --color-text-light: #34495e;  /* Secondary text color */
+        --color-success: #28a745;     /* Success indicators */
+        --color-danger: #dc3545;      /* Danger/Warning indicators */
+        --color-warning: #ffc107;     /* Warning indicators */
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background-color: var(--color-primary);
+        color: var(--color-text);
+        line-height: 1.6;
+        padding: 1rem;
+    }
+
+    .container {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        padding: 2rem;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    h2 {
+        color: var(--color-secondary);
+        font-size: 1.75rem;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .summary-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .stat-card {
+        background-color: var(--color-primary);
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .stat-card strong {
+        display: block;
+        font-size: 1.5rem;
+        color: var(--color-accent);
+        margin-top: 0.5rem;
+    }
+
+    a {
+        color: var(--color-accent);
+        text-decoration: none;
+        transition: color 0.3s ease;
+        align-self: center;
+        text-align: center;
+        display: block;
+        margin-top: 1rem;
+    }
+
+    a:hover {
+        color: #2980b9;
+        text-decoration: underline;
+    }
+
+    button {
+        background-color: var(--color-accent);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        align-self: center;
+        margin-top: 1rem;
+        display: block;
+        width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    button:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2);
+    }
+
+    .no-data {
+        text-align: center;
+        color: var(--color-text-light);
+        padding: 2rem;
+        background-color: var(--color-primary);
+        border-radius: 8px;
+    }
+
+    /* Responsive Design */
+    @media screen and (max-width: 768px) {
+        .container {
+            padding: 1rem;
+        }
+    }
+
+    /* Print Styles */
+    @media print {
+        body {
+            background-color: white;
+        }
+
+        .container {
+            box-shadow: none;
+        }
+
+        button {
+            display: none;
+        }
+
+        .chart-container {
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+    }
+
+    /* Accessibility: Focus States */
+    a:focus, button:focus {
+        outline: 3px solid var(--color-accent);
+        outline-offset: 3px;
+    }
+
+    .error {
+        color: #dc3545;
+        text-align: center;
+        padding: 2rem;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        border-radius: 8px;
+        margin: 1rem 0;
+    }
+
+    .chart-container {
+        background-color: white;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        min-height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .chart-container > div {
+        width: 100%;
+        height: 100%;
+    }
+
+    .chart-title {
+        color: var(--color-secondary);
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    .charts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Performance Report</h2>
+
+    {% if result %}
+        <div class="summary-stats">
+            <div class="stat-card">
+                <h3>GPA</h3>
+                <strong>{{ result.gpa|floatformat:2 }}</strong>
+            </div>
+            <div class="stat-card">
+                <h3>Classification</h3>
+                <strong>{{ result.classification }}</strong>
+            </div>
+            <div class="stat-card">
+                <h3>Total Units</h3>
+                <strong>{{ result.num_units }}</strong>
+            </div>
+            <div class="stat-card">
+                <h3>Failing Units</h3>
+                <strong>{{ result.failing_units }}</strong>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <!-- Grade Distribution Chart -->
+            <div class="chart-container">
+                <div id="gradeDistributionChart"></div>
+            </div>
+
+            <!-- GPA Trend Chart -->
+            <div class="chart-container">
+                <div id="gpaTrendChart"></div>
+            </div>
+
+            <!-- Failing Units Chart -->
+            <div class="chart-container">
+                <div id="failingUnitsChart"></div>
+            </div>
+
+            <!-- Radar Chart -->
+            <div class="chart-container">
+                <div id="radarChart"></div>
+            </div>
+
+            <!-- Heatmap -->
+            <div class="chart-container">
+                <div id="heatmapChart"></div>
+            </div>
+        </div>
+
+        <button onclick="window.print()">🖨️ Export to PDF</button>
+        <a href="{% url 'dashboard' %}">⬅ Back to Dashboard</a>
+    {% else %}
+        <div class="no-data">
+            <p>No grades found to analyze.</p>
+            <a href="{% url 'dashboard' %}">⬅ Back to Dashboard</a>
+        </div>
+    {% endif %}
+</div>
+
+{% if result %}
+<script>
+    // Function to safely parse JSON and handle errors
+    function safeParseJSON(jsonString, chartId) {
+        try {
+            return JSON.parse(jsonString);
+        } catch (e) {
+            console.error(`Error parsing JSON for ${chartId}:`, e);
+            document.getElementById(chartId).innerHTML = '<div class="error">Error loading chart</div>';
+            return null;
+        }
+    }
+
+    // Function to safely render a chart
+    function renderChart(chartId, data, layout) {
+        try {
+            Plotly.newPlot(chartId, data, layout);
+        } catch (e) {
+            console.error(`Error rendering chart ${chartId}:`, e);
+            document.getElementById(chartId).innerHTML = '<div class="error">Error rendering chart</div>';
+        }
+    }
+
+    // Parse and render the charts
+    const gradeDistChart = safeParseJSON('{{ grade_dist_chart|safe }}', 'gradeDistributionChart');
+    const gpaTrendChart = safeParseJSON('{{ gpa_trend_chart|safe }}', 'gpaTrendChart');
+    const failingUnitsChart = safeParseJSON('{{ failing_units_chart|safe }}', 'failingUnitsChart');
+    const radarChart = safeParseJSON('{{ radar_chart|safe }}', 'radarChart');
+    const heatmapChart = safeParseJSON('{{ heatmap_chart|safe }}', 'heatmapChart');
+
+    // Render each chart if data is available
+    if (gradeDistChart) renderChart('gradeDistributionChart', gradeDistChart.data, gradeDistChart.layout);
+    if (gpaTrendChart) renderChart('gpaTrendChart', gpaTrendChart.data, gpaTrendChart.layout);
+    if (failingUnitsChart) renderChart('failingUnitsChart', failingUnitsChart.data, failingUnitsChart.layout);
+    if (radarChart) renderChart('radarChart', radarChart.data, radarChart.layout);
+    if (heatmapChart) renderChart('heatmapChart', heatmapChart.data, heatmapChart.layout);
+
+    // Make charts responsive
+    window.addEventListener('resize', function() {
+        const chartIds = [
+            'gradeDistributionChart',
+            'gpaTrendChart',
+            'failingUnitsChart',
+            'radarChart',
+            'heatmapChart'
+        ];
+        
+        chartIds.forEach(id => {
+            try {
+                Plotly.Plots.resize(id);
+            } catch (e) {
+                console.error(`Error resizing chart ${id}:`, e);
+            }
+        });
+    });
+</script>
+{% endif %}
+{% endblock %}

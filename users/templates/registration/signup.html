@@ -1,0 +1,421 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block extra_head %}
+<style>
+    :root {
+        --primary: #4f46e5;
+        --primary-dark: #4338ca;
+        --secondary: #64748b;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --light: #f9fafb;
+        --dark: #1f2937;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-300: #d1d5db;
+        --gray-400: #9ca3af;
+        --gray-500: #6b7280;
+        --gray-600: #4b5563;
+        --border-radius: 0.375rem;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+        background-color: #f5f7fa;
+        color: var(--dark);
+        line-height: 1.5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 1rem;
+    }
+
+    .container {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        width: 100%;
+        max-width: 480px;
+        padding: 2.5rem;
+    }
+
+    .form-header {
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .form-header h2 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--dark);
+        margin-bottom: 0.75rem;
+    }
+
+    .form-header p {
+        color: var(--gray-500);
+        font-size: 0.95rem;
+    }
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    label {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--dark);
+    }
+
+    input {
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--gray-300);
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        color: var(--dark);
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+
+    input::placeholder {
+        color: var(--gray-400);
+    }
+
+    /* Password field styling */
+    .password-field-container {
+        position: relative;
+    }
+    
+    .password-toggle {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: var(--secondary);
+        background: none;
+        border: none;
+        padding: 0.25rem;
+        display: flex;
+        align-items: center;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+    
+    .password-toggle:hover {
+        color: var(--primary);
+    }
+    
+    .password-toggle:focus {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+        border-radius: 0.25rem;
+    }
+    
+    .password-toggle svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-right: 0.25rem;
+    }
+    
+    .password-strength {
+        height: 4px;
+        background: var(--gray-200);
+        margin-top: 0.5rem;
+        border-radius: 2px;
+        overflow: hidden;
+    }
+    
+    .password-strength-bar {
+        height: 100%;
+        width: 0;
+        transition: width 0.3s ease, background-color 0.3s ease;
+    }
+    
+    .strength-text {
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+    
+    .helper-text {
+        font-size: 0.875rem;
+        color: var(--gray-500);
+        margin-top: 0.25rem;
+    }
+
+    .error {
+        color: var(--danger);
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+    }
+
+    button[type="submit"] {
+        margin-top: 1rem;
+        padding: 0.875rem;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    button[type="submit"]:hover {
+        background-color: var(--primary-dark);
+    }
+
+    button[type="submit"]:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25);
+    }
+
+    .login-link {
+        margin-top: 1.5rem;
+        text-align: center;
+        font-size: 0.95rem;
+        color: var(--gray-500);
+    }
+
+    .login-link a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+    }
+
+    /* Grid layout for name fields */
+    .name-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    @media (max-width: 640px) {
+        .name-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .container {
+            padding: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-header">
+        <h2>Create an Account</h2>
+        <p>Sign up to get started with our service</p>
+    </div>
+
+    <form class="form-container" method="post" action="{% url 'signup' %}" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        
+        <!-- Full Name -->
+        <div class="form-group">
+            <label for="id_full_name">Full Name</label>
+            <input type="text" id="id_full_name" name="full_name" placeholder="Enter your full name" required>
+            {% if form.full_name.errors %}
+                <div class="error">{{ form.full_name.errors|striptags }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+            <label for="id_email">Email Address</label>
+            <input type="email" id="id_email" name="email" placeholder="your.email@example.com" required>
+            {% if form.email.errors %}
+                <div class="error">{{ form.email.errors|striptags }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Username -->
+        <div class="form-group">
+            <label for="id_username">Username</label>
+            <input type="text" id="id_username" name="username" placeholder="Choose a username" required>
+            {% if form.username.errors %}
+                <div class="error">{{ form.username.errors|striptags }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+            <label for="id_password1">Password</label>
+            <div class="password-field-container">
+                <input type="password" id="id_password1" name="password1" placeholder="Create a strong password" required>
+                <button type="button" class="password-toggle" id="toggle-password" aria-label="Show password">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <span>Show</span>
+                </button>
+            </div>
+            <div class="password-strength">
+                <div class="password-strength-bar" id="password-strength-bar"></div>
+            </div>
+            <div class="strength-text" id="password-strength-text"></div>
+            <div class="helper-text" id="password-requirements">Use at least 8 characters with letters, numbers, and symbols</div>
+            {% if form.password1.errors %}
+                <div class="error">{{ form.password1.errors|striptags }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+            <label for="id_password2">Confirm Password</label>
+            <input type="password" id="id_password2" name="password2" placeholder="Confirm your password" required>
+            {% if form.password2.errors %}
+                <div class="error">{{ form.password2.errors|striptags }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit">Create Account</button>
+    </form>
+
+    <div class="login-link">
+        <p>Already have an account? <a href="#login">Log in here</a>.</p>
+    </div>
+</div>
+
+<script>
+    // Password visibility toggle
+    document.getElementById('toggle-password').addEventListener('click', function() {
+        const passwordField = document.getElementById('id_password1');
+        const toggleText = this.querySelector('span');
+        const toggleIcon = this.querySelector('svg');
+        
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            toggleText.textContent = 'Hide';
+            this.setAttribute('aria-label', 'Hide password');
+            toggleIcon.innerHTML = `
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+            `;
+        } else {
+            passwordField.type = 'password';
+            toggleText.textContent = 'Show';
+            this.setAttribute('aria-label', 'Show password');
+            toggleIcon.innerHTML = `
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+            `;
+        }
+    });
+
+    // Auto-hide password after inactivity
+    let passwordVisibilityTimeout;
+    const PASSWORD_VISIBILITY_DURATION = 10000; // 10 seconds
+    
+    document.getElementById('id_password1').addEventListener('input', function() {
+        if (this.type === 'text') {
+            clearTimeout(passwordVisibilityTimeout);
+            passwordVisibilityTimeout = setTimeout(() => {
+                if (this.type === 'text') {
+                    this.type = 'password';
+                    const toggleBtn = document.getElementById('toggle-password');
+                    const toggleText = toggleBtn.querySelector('span');
+                    toggleText.textContent = 'Show';
+                    toggleBtn.setAttribute('aria-label', 'Show password');
+                    
+                    const toggleIcon = toggleBtn.querySelector('svg');
+                    toggleIcon.innerHTML = `
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    `;
+                }
+            }, PASSWORD_VISIBILITY_DURATION);
+        }
+    });
+
+    // Password strength meter
+    const passwordField = document.getElementById('id_password1');
+    const strengthBar = document.getElementById('password-strength-bar');
+    const strengthText = document.getElementById('password-strength-text');
+    
+    passwordField.addEventListener('input', function() {
+        const password = this.value;
+        let strength = 0;
+        
+        if (password.length >= 8) strength += 25;
+        if (password.match(/[A-Z]/)) strength += 25;
+        if (password.match(/[0-9]/)) strength += 25;
+        if (password.match(/[^A-Za-z0-9]/)) strength += 25;
+        
+        strengthBar.style.width = strength + '%';
+        
+        if (strength <= 25) {
+            strengthBar.style.backgroundColor = '#EF4444';
+            strengthText.textContent = 'Weak';
+            strengthText.style.color = '#EF4444';
+        } else if (strength <= 50) {
+            strengthBar.style.backgroundColor = '#F59E0B';
+            strengthText.textContent = 'Fair';
+            strengthText.style.color = '#F59E0B';
+        } else if (strength <= 75) {
+            strengthBar.style.backgroundColor = '#10B981';
+            strengthText.textContent = 'Good';
+            strengthText.style.color = '#10B981';
+        } else {
+            strengthBar.style.backgroundColor = '#059669';
+            strengthText.textContent = 'Strong';
+            strengthText.style.color = '#059669';
+        }
+    });
+
+    // Password match validation
+    const confirmPasswordField = document.getElementById('id_password2');
+    confirmPasswordField.addEventListener('input', function() {
+        if (this.value === passwordField.value) {
+            this.style.borderColor = '#10B981';
+        } else {
+            this.style.borderColor = '#EF4444';
+        }
+    });
+</script>
+{% endblock %}
