@@ -49,5 +49,5 @@ python manage.py runserver
 ![Dashboard](assets/screenshots/dashboard.png)
 
 ### Grade Tracker
-![Charts](assets/screenshots/Grade_tracker)
+![Charts](assets/screenshots/Grade_tracker.png)
 
