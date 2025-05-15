@@ -41,6 +41,7 @@ pip install -r requirements.txt
 cp .env.example .env  # Add your secrets like GITHUB_TOKEN here
 python manage.py migrate
 python manage.py runserver
+```
 
 ## 📸 Screenshots
 
